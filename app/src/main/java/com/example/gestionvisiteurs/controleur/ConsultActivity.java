@@ -71,6 +71,7 @@ public class ConsultActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("ConsultActivity", "Rechargement des visiteurs après modification...");
         afficherVisiteurs(); // Recharge la liste après modification
     }
 
