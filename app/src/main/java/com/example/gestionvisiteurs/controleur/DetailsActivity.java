@@ -40,7 +40,7 @@ public class DetailsActivity extends AppCompatActivity {
         // Récupération des données envoyées par l'Intent
         Intent intent = getIntent();
         if (intent != null) {
-            edtIdentifiant.setText(String.valueOf(intent.getIntExtra("identifiant", -1)));
+            edtIdentifiant.setText(intent.getStringExtra("identifiant"));
             edtNom.setText(intent.getStringExtra("nom"));
             edtPrenom.setText(intent.getStringExtra("prenom"));
             edtLogin.setText(intent.getStringExtra("login"));
@@ -79,6 +79,15 @@ public class DetailsActivity extends AppCompatActivity {
             Log.d("MODIF", "Ville: " + newVille);
             Log.d("MODIF", "Date Embauche: " + newDateEmbauche);
 
+
+
+            if (!visiteurDAO.idExiste(identifiant)) {
+                Log.e("DEBUG_UPDATE", "Erreur: L'ID " + identifiant + " n'existe pas dans la base !");
+                Toast.makeText(DetailsActivity.this, "Erreur: visiteur introuvable", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Log.d("DEBUG_UPDATE", "ID envoyé à updateVisiteur: " + identifiant);
             boolean success = visiteurDAO.updateVisiteur(visiteurModif);
 
             if (success) {

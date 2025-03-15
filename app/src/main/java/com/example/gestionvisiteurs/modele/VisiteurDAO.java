@@ -116,9 +116,25 @@ public class VisiteurDAO{
         values.put("dateEmbauche", visiteur.getDateEmbauche());
 
         // Mise à jour dans la base de données
-        int rowsAffected = db.update("visiteur", values, "identifiant = ?", new String[]{String.valueOf(visiteur.getIdentifiant())});
+        int rowsAffected = db.update("visiteur", values, "id = ?", new String[]{String.valueOf(visiteur.getIdentifiant())});
+
+        Log.d("DEBUG_UPDATE", "Lignes affectées par la mise à jour : " + rowsAffected);
+
 
         db.close(); // Toujours fermer la base de données après usage
 
         return rowsAffected > 0; // Retourne true si la mise à jour a réussi, sinon false
-    }}
+    }
+    public boolean idExiste(String id) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id FROM visiteur WHERE id = ?", new String[]{id});
+
+        boolean existe = cursor.getCount() > 0;
+        cursor.close();
+        return existe;
+    }
+
+
+}
+
+
