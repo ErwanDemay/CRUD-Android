@@ -125,6 +125,8 @@ public class VisiteurDAO{
 
         return rowsAffected > 0; // Retourne true si la mise à jour a réussi, sinon false
     }
+
+
     public boolean idExiste(String id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT id FROM visiteur WHERE id = ?", new String[]{id});
@@ -134,6 +136,15 @@ public class VisiteurDAO{
         return existe;
     }
 
+
+    public boolean deleteVisiteur(String id){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int rowsDeleted = db.delete("visiteur", "id = ?", new String[]{id});
+        db.close();
+
+        Log.d("DB_DELETE","Deleted visitor with id : " + id + ", Rows affected : " + rowsDeleted);
+        return rowsDeleted > 0;
+    }
 
 }
 

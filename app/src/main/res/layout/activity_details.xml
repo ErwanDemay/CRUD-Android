@@ -121,7 +121,7 @@ $
 
             <!-- Bouton Supprimer -->
             <Button
-                android:id="@+id/btnSupprimerForm"
+                android:id="@+id/btnSupprimer"
                 android:layout_width="150sp"
                 android:layout_height="wrap_content"
                 android:text="Supprimer"

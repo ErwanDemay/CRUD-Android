@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -36,6 +37,7 @@ public class DetailsActivity extends AppCompatActivity {
         EditText edtDateEmbauche = findViewById(R.id.edtDateEmbauche);
 
         Button btnValider = findViewById(R.id.btnValider);
+        Button btnSupprimer = findViewById(R.id.btnSupprimer);
 
         // Récupération des données envoyées par l'Intent
         Intent intent = getIntent();
@@ -53,7 +55,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         // Action du bouton valider
         btnValider.setOnClickListener(v -> {
-            Log.d("BTN_CLICK", "Bouton Valider cliqué");
+            //Log.d("BTN_CLICK", "Bouton Valider cliqué");
 
             String identifiant = (edtIdentifiant.getText().toString());
             String newNom = edtNom.getText().toString();
@@ -69,33 +71,8 @@ public class DetailsActivity extends AppCompatActivity {
 
             VisiteurDAO visiteurDAO = new VisiteurDAO(DetailsActivity.this);
 
-            Log.d("MODIF", "ID: " + identifiant);
-            Log.d("MODIF", "Nom: " + newNom);
-            Log.d("MODIF", "Prénom: " + newPrenom);
-            Log.d("MODIF", "Login: " + newLogin);
-            Log.d("MODIF", "MDP: " + newMdp);
-            Log.d("MODIF", "Adresse: " + newAdresse);
-            Log.d("MODIF", "Code Postal: " + newCodePostal);
-            Log.d("MODIF", "Ville: " + newVille);
-            Log.d("MODIF", "Date Embauche: " + newDateEmbauche);
 
-
-
-            if (!visiteurDAO.idExiste(identifiant)) {
-                Log.e("DEBUG_UPDATE", "Erreur: L'ID " + identifiant + " n'existe pas dans la base !");
-                Toast.makeText(DetailsActivity.this, "Erreur: visiteur introuvable", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Log.d("DEBUG_UPDATE", "ID envoyé à updateVisiteur: " + identifiant);
             boolean success = visiteurDAO.updateVisiteur(visiteurModif);
-
-            if (success) {
-                Log.d("DB_UPDATE", "Mise à jour réussie !");
-            } else {
-                Log.e("DB_UPDATE", "Échec de la mise à jour !");
-            }
-
 
             if (success) {
                 Toast.makeText(DetailsActivity.this, "Modifications enregistrées", Toast.LENGTH_SHORT).show();
@@ -105,6 +82,49 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
+        // Action du bouton supprimer
+        btnSupprimer.setOnClickListener(v ->{
+            Log.d("BTN_CLICK", "Bouton Supprimer cliqué");
+
+            //Get visitor ID
+            String id = edtIdentifiant.getText().toString();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(DetailsActivity.this);
+
+            //Dialogue alert
+            builder.setTitle("Confirmation");
+            builder.setMessage("Êtes-vous sûr de vouloir supprimer ce visiteur ? ");
+
+            //Reponse
+            builder.setPositiveButton("Oui", (dialog,which) -> {
+                //Create DAO and delete the visitor
+                VisiteurDAO visiteurDAO = new VisiteurDAO(DetailsActivity.this);
+                boolean success = visiteurDAO.deleteVisiteur(id);
+
+                if(success) {
+                    Toast.makeText(DetailsActivity.this, "Visiteur supprimé avec succès", Toast.LENGTH_SHORT).show();
+                    finish();
+                }else {
+                    Toast.makeText(DetailsActivity.this, "Echec de la suppression", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            builder.setNegativeButton("Non", (dialog,which) -> {
+
+                dialog.dismiss();
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+
+
+
+
+
+
+
+        });
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
