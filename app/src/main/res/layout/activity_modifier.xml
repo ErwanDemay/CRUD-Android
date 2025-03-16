@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".controleur.ModifierActivity">
+
+    <Spinner
+        android:id="@+id/spinnerVisiteurs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:id="@+id/edtIdentifiant"
+        style="@style/CustomEditText"
+        android:background="@drawable/edittext_border"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="Identifiant"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@id/spinnerVisiteurs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="30dp"/>
+
+    <EditText
+        android:id="@+id/edtNom"
+        style="@style/CustomEditText"
+        android:background="@drawable/edittext_border"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="Nom"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@id/edtIdentifiant"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/edtPrenom"
+        style="@style/CustomEditText"
+        android:background="@drawable/edittext_border"
+        android:textColorHint="@color/black"
+        android:hint="Prénom"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@id/edtNom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/edtLogin"
+        style="@style/CustomEditText"
+        android:background="@drawable/edittext_border"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="Login"
+        android:inputType="textEmailAddress"
+        app:layout_constraintTop_toBottomOf="@id/edtPrenom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/edtPassword"
+        style="@style/CustomEditText"
+        android:background="@drawable/edittext_border"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="Mot de Passe"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/edtLogin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/edtAdresseRue"
+        style="@style/CustomEditText"
+        android:background="@drawable/edittext_border"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="Adresse Rue"
+        android:inputType="textPostalAddress"
+        app:layout_constraintTop_toBottomOf="@id/edtPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/edtCodePostal"
+        style="@style/CustomEditText"
+        android:background="@drawable/edittext_border"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="Code Postal"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@id/edtAdresseRue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/edtVille"
+        style="@style/CustomEditText"
+        android:background="@drawable/edittext_border"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="Ville"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/edtCodePostal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/edtDateEmbauche"
+        style="@style/CustomEditText"
+        android:background="@drawable/edittext_border"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="Date d'embauche (JJ/MM/AAAA)"
+        android:inputType="date"
+        app:layout_constraintTop_toBottomOf="@id/edtVille"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <!-- Bouton Valider -->
+    <Button
+        android:id="@+id/btnValider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Valider"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:background="@drawable/button_background"
+        app:layout_constraintTop_toBottomOf="@id/edtDateEmbauche"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

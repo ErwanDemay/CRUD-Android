@@ -26,6 +26,7 @@ public class  PropositionActivity extends AppCompatActivity {
 
         Button buttonValider= (Button) findViewById(R.id.btnValider);
         Button buttonConsulter= (Button) findViewById(R.id.btnConsulter);
+        Button buttonModifier = findViewById(R.id.btnModifier);
 
         //ClickListener pour ouvrir la vue activity_ajout au clic du bouton
         buttonValider.setOnClickListener(new View.OnClickListener() {
@@ -37,7 +38,6 @@ public class  PropositionActivity extends AppCompatActivity {
 
 
         //ClickListener pour ouvrir la vue activity_consult au clic du bouton
-
         buttonConsulter.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View view){
@@ -45,6 +45,16 @@ public class  PropositionActivity extends AppCompatActivity {
                 startActivity(new Intent(PropositionActivity.this,ConsultActivity.class));
             }
         });
+
+        buttonModifier.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                //Log.d("PropositionActivity", "Bouton Modfier cliqué !");
+                startActivity(new Intent(PropositionActivity.this,ModifierActivity.class));
+            }
+        });
+
+
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

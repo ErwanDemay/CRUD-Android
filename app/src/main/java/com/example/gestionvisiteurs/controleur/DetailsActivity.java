@@ -20,24 +20,30 @@ import com.example.gestionvisiteurs.modele.VisiteurDAO;
 
 public class DetailsActivity extends AppCompatActivity {
 
+    private EditText edtIdentifiant, edtNom, edtPrenom, edtLogin, edtPassword, edtAdresseRue, edtCodePostal, edtVille, edtDateEmbauche;
+    private Button btnValider, btnSupprimer;
+    private VisiteurDAO visiteurDAO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_details);
 
-        EditText edtIdentifiant = findViewById(R.id.edtIdentifiant);
-        EditText edtNom = findViewById(R.id.edtNom);
-        EditText edtPrenom = findViewById(R.id.edtPrenom);
-        EditText edtLogin = findViewById(R.id.edtLogin);
-        EditText edtPassword = findViewById(R.id.edtPassword);
-        EditText edtAdresseRue = findViewById(R.id.edtAdresseRue);
-        EditText edtCodePostal = findViewById(R.id.edtCodePostal);
-        EditText edtVille = findViewById(R.id.edtVille);
-        EditText edtDateEmbauche = findViewById(R.id.edtDateEmbauche);
+        // Initialisation des vues
+        edtIdentifiant = findViewById(R.id.edtIdentifiant);
+        edtNom = findViewById(R.id.edtNom);
+        edtPrenom = findViewById(R.id.edtPrenom);
+        edtLogin = findViewById(R.id.edtLogin);
+        edtPassword = findViewById(R.id.edtPassword);
+        edtAdresseRue = findViewById(R.id.edtAdresseRue);
+        edtCodePostal = findViewById(R.id.edtCodePostal);
+        edtVille = findViewById(R.id.edtVille);
+        edtDateEmbauche = findViewById(R.id.edtDateEmbauche);
+        btnValider = findViewById(R.id.btnValider);
+        btnSupprimer = findViewById(R.id.btnSupprimer);
 
-        Button btnValider = findViewById(R.id.btnValider);
-        Button btnSupprimer = findViewById(R.id.btnSupprimer);
+        visiteurDAO = new VisiteurDAO(this);
 
         // Récupération des données envoyées par l'Intent
         Intent intent = getIntent();
@@ -54,81 +60,74 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         // Action du bouton valider
-        btnValider.setOnClickListener(v -> {
-            //Log.d("BTN_CLICK", "Bouton Valider cliqué");
-
-            String identifiant = (edtIdentifiant.getText().toString());
-            String newNom = edtNom.getText().toString();
-            String newPrenom = edtPrenom.getText().toString();
-            String newLogin = edtLogin.getText().toString();
-            String newMdp = edtPassword.getText().toString();
-            String newAdresse = edtAdresseRue.getText().toString();
-            String newCodePostal = edtCodePostal.getText().toString();
-            String newVille = edtVille.getText().toString();
-            String newDateEmbauche = edtDateEmbauche.getText().toString();
-
-            Visiteur visiteurModif = new Visiteur(identifiant, newNom, newPrenom, newLogin, newMdp, newAdresse, newCodePostal, newVille, newDateEmbauche);
-
-            VisiteurDAO visiteurDAO = new VisiteurDAO(DetailsActivity.this);
-
-
-            boolean success = visiteurDAO.updateVisiteur(visiteurModif);
-
-            if (success) {
-                Toast.makeText(DetailsActivity.this, "Modifications enregistrées", Toast.LENGTH_SHORT).show();
-                finish();
-            } else {
-                Toast.makeText(DetailsActivity.this, "Échec de la modification", Toast.LENGTH_SHORT).show();
-            }
-        });
+        btnValider.setOnClickListener(v -> updateVisiteur());
 
         // Action du bouton supprimer
-        btnSupprimer.setOnClickListener(v ->{
-            Log.d("BTN_CLICK", "Bouton Supprimer cliqué");
+        btnSupprimer.setOnClickListener(v -> deleteVisiteur());
 
-            //Get visitor ID
-            String id = edtIdentifiant.getText().toString();
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(DetailsActivity.this);
-
-            //Dialogue alert
-            builder.setTitle("Confirmation");
-            builder.setMessage("Êtes-vous sûr de vouloir supprimer ce visiteur ? ");
-
-            //Reponse
-            builder.setPositiveButton("Oui", (dialog,which) -> {
-                //Create DAO and delete the visitor
-                VisiteurDAO visiteurDAO = new VisiteurDAO(DetailsActivity.this);
-                boolean success = visiteurDAO.deleteVisiteur(id);
-
-                if(success) {
-                    Toast.makeText(DetailsActivity.this, "Visiteur supprimé avec succès", Toast.LENGTH_SHORT).show();
-                    finish();
-                }else {
-                    Toast.makeText(DetailsActivity.this, "Echec de la suppression", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            builder.setNegativeButton("Non", (dialog,which) -> {
-
-                dialog.dismiss();
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
-
-
-
-
-
-
-
-        });
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    private void updateVisiteur() {
+        String identifiant = edtIdentifiant.getText().toString();
+        String newNom = edtNom.getText().toString();
+        String newPrenom = edtPrenom.getText().toString();
+        String newLogin = edtLogin.getText().toString();
+        String newMdp = edtPassword.getText().toString();
+        String newAdresse = edtAdresseRue.getText().toString();
+        String newCodePostal = edtCodePostal.getText().toString();
+        String newVille = edtVille.getText().toString();
+        String newDateEmbauche = edtDateEmbauche.getText().toString();
+
+        // Vérification des champs obligatoires
+        if (newNom.isEmpty() || newPrenom.isEmpty() || newLogin.isEmpty() || newMdp.isEmpty()) {
+            Toast.makeText(this, "Veuillez remplir tous les champs obligatoires", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Création de l'objet Visiteur avec les nouvelles valeurs
+        Visiteur visiteurModif = new Visiteur(identifiant, newNom, newPrenom, newLogin, newMdp, newAdresse, newCodePostal, newVille, newDateEmbauche);
+
+        // Mise à jour en base de données
+        boolean success = visiteurDAO.updateVisiteur(visiteurModif);
+
+        // Affichage du résultat
+        if (success) {
+            Toast.makeText(this, "Modifications enregistrées", Toast.LENGTH_SHORT).show();
+            finish(); // Ferme l'activité après la modification
+        } else {
+            Toast.makeText(this, "Échec de la modification", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void deleteVisiteur() {
+        Log.d("BTN_CLICK", "Bouton Supprimer cliqué");
+
+        String id = edtIdentifiant.getText().toString();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(DetailsActivity.this);
+
+        builder.setTitle("Confirmation");
+        builder.setMessage("Êtes-vous sûr de vouloir supprimer ce visiteur ? ");
+
+        builder.setPositiveButton("Oui", (dialog, which) -> {
+            boolean success = visiteurDAO.deleteVisiteur(id);
+
+            if (success) {
+                Toast.makeText(DetailsActivity.this, "Visiteur supprimé avec succès", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(DetailsActivity.this, "Échec de la suppression", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("Non", (dialog, which) -> dialog.dismiss());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

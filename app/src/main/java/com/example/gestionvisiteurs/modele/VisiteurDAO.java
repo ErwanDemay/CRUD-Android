@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 public class VisiteurDAO{
-    private BD_SQLiteOpenHelper dbHelper;
+    private final BD_SQLiteOpenHelper dbHelper;
     private static SQLiteDatabase database;
 
     private static List<Visiteur> listeVisiteurs;
@@ -77,7 +77,7 @@ public class VisiteurDAO{
         List<Visiteur> visiteurs = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase(); // S'assurer d'ouvrir la base en lecture
         String query = "SELECT * FROM visiteur";
-        ;
+
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor != null && cursor.moveToFirst()) {
@@ -142,7 +142,7 @@ public class VisiteurDAO{
         int rowsDeleted = db.delete("visiteur", "id = ?", new String[]{id});
         db.close();
 
-        Log.d("DB_DELETE","Deleted visitor with id : " + id + ", Rows affected : " + rowsDeleted);
+        //Log.d("DB_DELETE","Deleted visitor with id : " + id + ", Rows affected : " + rowsDeleted);
         return rowsDeleted > 0;
     }
 
