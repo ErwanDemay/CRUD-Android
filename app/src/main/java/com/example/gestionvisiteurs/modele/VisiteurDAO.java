@@ -111,12 +111,12 @@ public class VisiteurDAO{
         values.put("login", visiteur.getLogin());
         values.put("mdp", visiteur.getMotDePasse()); // Assure-toi que le nom de la colonne est correct
         values.put("adresse", visiteur.getAdresse());
-        values.put("codePostal", visiteur.getCodePostal());
+        values.put("cp", visiteur.getCodePostal());
         values.put("ville", visiteur.getVille());
         values.put("dateEmbauche", visiteur.getDateEmbauche());
 
         // Mise à jour dans la base de données
-        int rowsAffected = db.update("visiteur", values, "id = ?", new String[]{String.valueOf(visiteur.getIdentifiant())});
+        int rowsAffected = db.update("visiteur", values, "id = ?", new String[]{visiteur.getIdentifiant()});
 
         Log.d("DEBUG_UPDATE", "Lignes affectées par la mise à jour : " + rowsAffected);
 
