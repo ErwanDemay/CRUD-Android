@@ -52,7 +52,7 @@ public class DetailsActivity extends AppCompatActivity {
             edtNom.setText(intent.getStringExtra("nom"));
             edtPrenom.setText(intent.getStringExtra("prenom"));
             edtLogin.setText(intent.getStringExtra("login"));
-            edtPassword.setText(intent.getStringExtra("motDePasse"));
+            edtPassword.setText(intent.getStringExtra("mdp"));
             edtAdresseRue.setText(intent.getStringExtra("adresse"));
             edtCodePostal.setText(intent.getStringExtra("codePostal"));
             edtVille.setText(intent.getStringExtra("ville"));

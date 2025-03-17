@@ -40,11 +40,12 @@ public class VisiteurDAO{
 
         listeVisiteurs.add(unVisiteur);
 
-        Log.d("Text", "Le visiteur a bien été ajouté. ");
+        //Log.d("Text", "Le visiteur a bien été ajouté. ");
 
     }
 
     public List<Visiteur> getAllVisiteurs() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         List<Visiteur> visiteurs = new ArrayList<>();
         String query = "SELECT * FROM visiteur";
         Cursor cursor = database.rawQuery(query, null);
@@ -118,22 +119,12 @@ public class VisiteurDAO{
         // Mise à jour dans la base de données
         int rowsAffected = db.update("visiteur", values, "id = ?", new String[]{visiteur.getIdentifiant()});
 
-        Log.d("DEBUG_UPDATE", "Lignes affectées par la mise à jour : " + rowsAffected);
+        //Log.d("DEBUG_UPDATE", "Lignes affectées par la mise à jour : " + rowsAffected);
 
 
         db.close(); // Toujours fermer la base de données après usage
 
         return rowsAffected > 0; // Retourne true si la mise à jour a réussi, sinon false
-    }
-
-
-    public boolean idExiste(String id) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT id FROM visiteur WHERE id = ?", new String[]{id});
-
-        boolean existe = cursor.getCount() > 0;
-        cursor.close();
-        return existe;
     }
 
 
@@ -144,6 +135,33 @@ public class VisiteurDAO{
 
         //Log.d("DB_DELETE","Deleted visitor with id : " + id + ", Rows affected : " + rowsDeleted);
         return rowsDeleted > 0;
+    }
+
+    //Méthode pour se connecter a l'application
+    public Visiteur seConnecter(String unIdentifiant, String unMotDePasse){
+        Visiteur visiteur = null;
+        List<Visiteur> visiteurs = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase(); // S'assurer d'ouvrir la base en lecture
+        String query = "SELECT * FROM visiteur WHERE login = ? AND mdp = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{unIdentifiant, unMotDePasse});
+
+        if (cursor != null && cursor.moveToFirst()) {
+             visiteur = new Visiteur(
+                    cursor.getString(cursor.getColumnIndexOrThrow("id")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("nom")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("prenom")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("login")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("mdp")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("adresse")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("cp")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("ville")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("dateEmbauche"))
+            );
+        }
+        cursor.close();
+        db.close();
+
+        return visiteur;
     }
 
 }

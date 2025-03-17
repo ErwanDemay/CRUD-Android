@@ -75,7 +75,7 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:hint="Mot de Passe"
-        android:inputType="textPassword"
+        android:inputType="textVisiblePassword"
         app:layout_constraintTop_toBottomOf="@id/edtLogin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

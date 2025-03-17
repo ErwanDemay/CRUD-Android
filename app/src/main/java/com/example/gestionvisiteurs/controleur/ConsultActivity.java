@@ -51,6 +51,7 @@ public class ConsultActivity extends AppCompatActivity {
             intent.putExtra("nom", visiteurSelectionne.getNom());
             intent.putExtra("prenom", visiteurSelectionne.getPrenom());
             intent.putExtra("login", visiteurSelectionne.getLogin());
+            intent.putExtra("mdp",visiteurSelectionne.getMotDePasse());
             intent.putExtra("adresse", visiteurSelectionne.getAdresse());
             intent.putExtra("codePostal", visiteurSelectionne.getCodePostal());
             intent.putExtra("ville", visiteurSelectionne.getVille());

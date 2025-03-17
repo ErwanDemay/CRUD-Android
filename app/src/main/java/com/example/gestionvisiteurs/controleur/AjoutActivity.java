@@ -22,7 +22,6 @@ import java.util.List;
 public class AjoutActivity extends AppCompatActivity {
     private VisiteurDAO visiteurDAO;
     private EditText edtIdentifiant, edtNom, edtPrenom, edtLogin, edtPassword, edtAdresseRue, edtCodePostal, edtVille, edtDateEmbauche;
-    private Button btnAjouter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class AjoutActivity extends AppCompatActivity {
         edtCodePostal = findViewById(R.id.edtCodePostal);
         edtVille = findViewById(R.id.edtVille);
         edtDateEmbauche = findViewById(R.id.edtDateEmbauche);
-        btnAjouter = findViewById(R.id.btnValiderForm);
+        Button btnAjouter = findViewById(R.id.btnValiderForm);
 
         // Ajout du listener sur le bouton
         btnAjouter.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +74,7 @@ public class AjoutActivity extends AppCompatActivity {
             Visiteur visiteur = new Visiteur(id, nom, prenom, login, mdp, adresse, cp, ville, dateEmbauche);
 
             // Utilisation de l'objet visiteurDAO
-            visiteurDAO.addVisiteur(visiteur);
+            VisiteurDAO.addVisiteur(visiteur);
 
             Toast.makeText(this, "Visiteur ajoute avec succès !", Toast.LENGTH_SHORT).show();
             Log.d("DB_DEBUG", "Visiteur ajouté : " + visiteur.getNom() + ", " + visiteur.getPrenom());

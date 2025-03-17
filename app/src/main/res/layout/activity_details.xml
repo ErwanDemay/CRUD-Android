@@ -65,8 +65,8 @@ $
                 android:background="@drawable/edittext_border"
                 android:textColor="@color/black"
 
-                android:hint="Mot de Passe"
-                android:inputType="textPassword"/>
+                android:hint="MotDePasse"
+                android:inputType="textVisiblePassword"/>
 
             <EditText
                 android:id="@+id/edtAdresseRue"
